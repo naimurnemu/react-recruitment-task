@@ -4,6 +4,44 @@ const baseUrl = "https://sugarytestapi.azurewebsites.net/";
 const listPath = "TestApi/GetComplains";
 const savePath = "TestApi/SaveComplain";
 
+type InputProps = React.ComponentPropsWithoutRef<'input'>;
+type TextAreaProps = React.ComponentPropsWithoutRef<'textarea'>;
+type ButtonProps = React.ComponentPropsWithoutRef<'button'>;
+type CardProps = React.ComponentPropsWithoutRef<'div'>;
+
+const Input = (props: InputProps) => {
+  return (
+    <div>
+      <input {...props} />
+    </div>
+  );
+};
+
+const TextArea = (props: TextAreaProps) => {
+  return (
+    <div>
+      <textarea {...props} />
+    </div>
+  );
+};
+
+const Button = (props: ButtonProps) => {
+  return (
+    <div>
+      <button {...props} />
+    </div>
+  );
+};
+
+const Card = ({children, ...props}: CardProps) => {
+  return (
+    <div {...props}>
+      {children}
+    </div>
+  );
+};
+
+
 function App() {
   const [complains, setComplains] = useState([]);
   const [title, setTitle] = useState("");
@@ -50,33 +88,37 @@ function App() {
   }, []); // Missing dependency array cleanup
 
   return (
+    
     <div className="wrapper">
       <h2>Submit a Complaint</h2>
 
-      <div className="complain-form">
-        <input
+      <Card className="complain-form">
+        <Input
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <textarea
+        <TextArea
           placeholder="Enter your complaint"
           value={body}
           onChange={(e) => setBody(e.target.value)}
+          
         />
 
-        <button onClick={handleSubmit}>
+        <Button onClick={handleSubmit}>
           {isSaving ? 'Submitting...' : 'Submit Complaint'}
-        </button>
+        </Button>
 
         {/* Place text loader when saving */}
         {/* Error message not displayed even though state exists */}
-      </div>
+      </Card>
 
       <h2>Complaints List</h2>
 
-      {isLoading ? (
+      {isLoading ? 
+      
+      (
         <div>Loading...</div>
       ) : complains.length ? (
         complains.map((complain) => (
@@ -93,3 +135,6 @@ function App() {
 }
 
 export default App;
+
+
+
